@@ -1,11 +1,15 @@
 package com.api.book.bootrestbook.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.springframework.stereotype.Component;
 
@@ -20,10 +24,21 @@ public class Book {
     private int id;
     private String name;
     private String price;
-    public Book(int id, String name, String price) {
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Author author;
+    public Author getAuthor() {
+        return author;
+    }
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+    public Book(int id, String name, String price, Author author) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.author = author;
     }
     public Book() {
     }

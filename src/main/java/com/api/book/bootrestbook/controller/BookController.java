@@ -1,5 +1,6 @@
 package com.api.book.bootrestbook.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.api.book.bootrestbook.entities.Book;
@@ -27,16 +28,13 @@ public class BookController {
     BookService bookService;
     
     @GetMapping("/books")
-    public ResponseEntity<Book> getBooks(){
+    public List<Book> getBooks(){
+        return this.bookService.getAllBooks();
         
-        
-        book.setId(1);
-        book.setName("java");
-        book.setPrice("100");
-        if(book == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.of(Optional.of(book));
+        // if(book == null){
+        //     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        // }
+        // return ResponseEntity.of(Optional.of(book));
 
     }
     @PostMapping("/books")

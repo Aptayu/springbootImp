@@ -15,25 +15,42 @@ public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
-    
+
     private static List<Book> list = new ArrayList<>();
 
-    public boolean addBook(Book b){
-        return list.add(b);
+    public List<Book> getAllBooks(){
+        List<Book> list = (List<Book>) this.bookRepository.findAll();
+        return list;
+
+    }
+    public Book getBookById(int id){
+        Book book = null;
+        try {
+            book = this.bookRepository.findById(id);  
+           
+        } catch (Exception e) {
+            //TODO: handle exception
+            e.printStackTrace();
+        }
+        return book;
+        
+    }
+    
+    
+
+    public Book addBook(Book b){
+        Book book = this.bookRepository.save(b);
+        return book;
     }
 
     public void deleteBook(int id) {
         //Now our list will have all the Book which do not have id given 
-       list =  list.stream().filter(book -> book.getId() != id).collect(Collectors.toList());
+        this.bookRepository.delete(this.bookRepository.findById(id));
+    
     }
 
     public void updateBook(Book book, int id) {
-        list = list.stream().map(b->{
-            if(b.getId() == id){
-                b.setName(book.getName());
-                b.setPrice(book.getPrice());
-            }
-            return b;
-        }).collect(Collectors.toList());
+        book.setId(id);
+        this.bookRepository.save(book);
     }
 }
